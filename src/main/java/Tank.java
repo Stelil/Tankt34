@@ -2,6 +2,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Tank {
+    private String name;
     private float health;
     private float damage;
     private String strategy;
@@ -10,7 +11,8 @@ public class Tank {
     private int length;
     private int deg;
 
-    Tank(float health, float damage, String strategy, int x, int y, int length, int deg) {
+    Tank(String name, float health, float damage, String strategy, int x, int y, int length, int deg) {
+        this.name = name;
         this.health = health;
         this.damage = damage;
         this.strategy = strategy;
@@ -18,6 +20,14 @@ public class Tank {
         this.y = y;
         this.length = length;
         this.deg = deg;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getHealth() {
@@ -46,8 +56,8 @@ public class Tank {
 
     public int getMove(String moving) {
         int move;
-        JSONArray ar = new JSONArray();
         JSONObject obj = new JSONObject(this.strategy);
+        JSONArray array = obj.getJSONArray("strategy");
         move = Integer.valueOf(String.valueOf(obj.get(moving)));
         return move;
     }
@@ -69,7 +79,10 @@ public class Tank {
     }
 
     public int getLengthStrategy() {
-        return length;
+        JSONObject obj = new JSONObject(this.strategy);
+        JSONArray array = obj.getJSONArray("strategy");
+
+        return array.length();
     }
 
     public void setLengthStrategy(int length) {
@@ -91,4 +104,5 @@ public class Tank {
     public void setDeg(int deg) {
         this.deg = deg;
     }
+
 }
