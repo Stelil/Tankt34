@@ -7,13 +7,17 @@ public class Tank {
     private String strategy;
     private int x;
     private int y;
+    private int length;
+    private int deg;
 
-    Tank(float health, float damage, String strategy, int x, int y) {
+    Tank(float health, float damage, String strategy, int x, int y, int length, int deg) {
         this.health = health;
         this.damage = damage;
         this.strategy = strategy;
         this.x = x;
         this.y = y;
+        this.length = length;
+        this.deg = deg;
     }
 
     public float getHealth() {
@@ -40,7 +44,7 @@ public class Tank {
         this.strategy = strategy;
     }
 
-    public int getMove(String moving){
+    public int getMove(String moving) {
         int move;
         JSONArray ar = new JSONArray();
         JSONObject obj = new JSONObject(this.strategy);
@@ -62,5 +66,29 @@ public class Tank {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getLengthStrategy() {
+        return length;
+    }
+
+    public void setLengthStrategy(int length) {
+        this.length = length;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public int getDeg() {
+        return deg;
+    }
+
+    public void setDeg(int deg) {
+        this.deg = deg;
     }
 }
