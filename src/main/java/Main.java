@@ -20,7 +20,7 @@ public class Main {
                 7);
 
         int k = 0;
-        while (k++ < 4) {
+        while (k++ < 5) {
             picture(k);
         }
 
@@ -29,8 +29,8 @@ public class Main {
     private static JSONObject constructorStrategy(int left_move, int right_move, int up_move, int down_move) {
         JSONArray ar = new JSONArray();
         JSONObject obj = new JSONObject();
-        obj.put("left_move", 2);
-        obj.put("right_move", 1);
+        obj.put("left_move", 1);
+        obj.put("right_move", 2);
         obj.put("up_move", 1);
         obj.put("down_move", 3);
         ar.put(obj);
@@ -38,11 +38,12 @@ public class Main {
     }
 
     private static void picture(int i) {
-        for (int x = 10; x-- > 0; ) {
-            for (int y = 10; y-- > 0;) {
+        System.out.println("Проход " + i);
+        for (int x = 1; x<11;x++ ) {
+            for (int y = 1; y<11; y++) {
                 if (firstTank.getX() == x && firstTank.getY() == y) {
-                    System.out.print("|1");
-                } else if (x == 0) {
+                    System.out.print("|▲");
+                } else if (x == 1) {
                     System.out.print(" -");
                 } else if (y < 10) {
                     System.out.print("|_");
@@ -51,35 +52,40 @@ public class Main {
 
                 }
             }
-
             System.out.println();
         }
+        System.out.println();
 
         switch (i) {
             case 1:
-                int getX = firstTank.getX();
+                int getY = firstTank.getY();
                 int getMove = firstTank.getMove("left_move");
-                getX -= getMove;
-                firstTank.setX(getX);
+                if (getY - getMove != 0){
+                    
+                } else {
+                    firstTank.setY(getY);
+                }
+
                 break;
             case 2:
-                getX = firstTank.getX();
+                getY = firstTank.getY();
                 getMove = firstTank.getMove("right_move");
-                getX += getMove;
-                firstTank.setX(getX);
-                break;
-            case 3:
-                int getY = firstTank.getY();
-                getMove = firstTank.getMove("up_move");
                 getY += getMove;
                 firstTank.setY(getY);
                 break;
-            case 4:
-                getY = firstTank.getY();
-                getMove = firstTank.getMove("down_move");
-                getY -= getMove;
-                firstTank.setY(getY);
+            case 3:
+                int getX = firstTank.getX();
+                getMove = firstTank.getMove("up_move");
+                getX -= getMove;
+                firstTank.setX(getX);
                 break;
+            case 4:
+                getX = firstTank.getX();
+                getMove = firstTank.getMove("down_move");
+                getX += getMove;
+                firstTank.setX(getX);
+                break;
+            default:
 
         }
     }
