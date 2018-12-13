@@ -17,107 +17,106 @@ public class Action {
         JSONArray array = obj.getJSONArray("strategy");
         org.json.JSONObject getObj = array.getJSONObject(line);
         String str = getObj.toString();
-        //поворот против часовой стрелки
-        if (str.toLowerCase().contains("left_turn".toLowerCase())) {
-            int turn = getObj.getInt("left_turn");
-            int getDeg = tank.getDeg();
-            if (getDeg - turn < 0) {
-                getDeg = 360 - turn;
-                tank.setDeg(getDeg);
-            } else {
-                getDeg -= turn;
-                tank.setDeg(getDeg);
-            }
+
+        //движение направо
+        if (str.toLowerCase().contains("left_move".toLowerCase())) {
+            int getMove = getObj.getInt("left_move");
+            int getX = tank.getX();
+            int getY = tank.getY();
+
+            int[] res = moving(270, getX, getY, getMove, enemy);
+
+            getX = res[0];
+            tank.setX(getX);
+
+            getY = res[1];
+            tank.setY(getY);
+
+            tank.setDeg(270);
         }
-        //поворот по часовой стрелки
-        if (str.toLowerCase().contains("right_turn".toLowerCase())) {
-            int turn = getObj.getInt("right_turn");
-            int getDeg = tank.getDeg();
-            if (getDeg + turn >= 360) {
-                getDeg = getDeg % turn;
-                tank.setDeg(getDeg);
-            } else {
-                getDeg += turn;
-                tank.setDeg(getDeg);
-            }
+
+        //движение налево
+        if (str.toLowerCase().contains("right_move".toLowerCase())) {
+            int getMove = getObj.getInt("right_move");
+            int getX = tank.getX();
+            int getY = tank.getY();
+
+            int[] res = moving(90, getX, getY, getMove, enemy);
+
+            getX = res[0];
+            tank.setX(getX);
+
+            getY = res[1];
+            tank.setY(getY);
+
+            tank.setDeg(90);
+
         }
+
         // движение вперед
         if (str.toLowerCase().contains("up_move".toLowerCase())) {
             int getMove = getObj.getInt("up_move");
             int getX = tank.getX();
             int getY = tank.getY();
 
-            int[] res = moving(tank.getDeg(), getX, getY, getMove);
+            int[] res = moving(0, getX, getY, getMove, enemy);
+
             getX = res[0];
             tank.setX(getX);
+
             getY = res[1];
             tank.setY(getY);
+
+            tank.setDeg(0);
+
         }
+
         //движение назад
         if (str.toLowerCase().contains("down_move".toLowerCase())) {
             int getMove = getObj.getInt("down_move");
             int getX = tank.getX();
             int getY = tank.getY();
 
-            int[] res = moving(tank.getDeg(), getX, getY, -getMove);
+            int[] res = moving(180, getX, getY, getMove, enemy);
+
             getX = res[0];
             tank.setX(getX);
+
             getY = res[1];
             tank.setY(getY);
+
+            tank.setDeg(180);
+
         }
 
     }
 
-    private int[] moving(int deg, int x, int y, int move) {
+    private int[] moving(int deg, int x, int y, int move, Tank enemy) {
         int[] res = new int[2];
         res[0] = x;
         res[1] = y;
 
         switch (deg) {
             case 0:
-                if (x - move > 0 && x - move < lengthMapX) {
-                    res[0] = x - move;
-                    res[1] = y;
-                } else {
-                    break;
-                }
-                if (x + move > 0 && x + move < lengthMapX) {
+                if (x - move > 0 && x - move != enemy.getX()) {
                     res[0] = x - move;
                     res[1] = y;
                 }
                 break;
             case 90:
-                if (y - move > 0 && y - move < lengthMapY) {
+                if (y + move < lengthMapY && y + move != enemy.getX()) {
                     res[0] = x;
-                    res[1] = y - move;
-                } else {
-                    break;
-                }
-                if (y + move > 0 && y + move < lengthMapY) {
-                    res[0] = x;
-                    res[1] = y - move;
+                    res[1] = y + move;
                 }
                 break;
             case 180:
-                if (x - move > 0 && x - move < lengthMapX) {
-                    res[0] = x - move;
-                    res[1] = y;
-                } else {
-                    break;
-                }
-                if (x + move > 0 && x + move < lengthMapX) {
-                    res[0] = x - move;
+                if (x + move < lengthMapX && x + move != enemy.getY()) {
+                    res[0] = x + move;
                     res[1] = y;
                 }
                 break;
             case 270:
-                if (y - move > 0 && y - move < lengthMapY) {
-                    res[0] = x;
-                    res[1] = y - move;
-                } else {
-                    break;
-                }
-                if (y + move > 0 && y + move < lengthMapY) {
+                if (y - move > 0 && y - move != enemy.getX()) {
                     res[0] = x;
                     res[1] = y - move;
                 }
