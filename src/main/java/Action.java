@@ -4,14 +4,16 @@ import java.util.Random;
 
 public class Action {
 
-    int lengthMapX = 10;
-    int lengthMapY = 10;
+    int lengthMapX;
+    int lengthMapY;
 
-    public void action(Tank tank, Tank enemy) {
+    public void action(Tank tank, Tank enemy, int lengthMapX, int lengthMapY) {
+
+        this.lengthMapX = lengthMapX + 1;
+        this.lengthMapY = lengthMapY + 1;
+
         Random random = new Random();
         int line = random.nextInt(tank.getLengthStrategy());
-
-        System.out.println(tank.getName());
 
         org.json.JSONObject obj = new org.json.JSONObject(tank.getStrategy());
         JSONArray array = obj.getJSONArray("strategy");
@@ -98,25 +100,25 @@ public class Action {
 
         switch (deg) {
             case 0:
-                if (x - move > 0 && x - move != enemy.getX()) {
+                if (x - move > 0 && (x - move != enemy.getX() || y != enemy.getY())) {
                     res[0] = x - move;
                     res[1] = y;
                 }
                 break;
             case 90:
-                if (y + move < lengthMapY && y + move != enemy.getX()) {
+                if (y + move < lengthMapY && (y + move != enemy.getY() || x != enemy.getX())) {
                     res[0] = x;
                     res[1] = y + move;
                 }
                 break;
             case 180:
-                if (x + move < lengthMapX && x + move != enemy.getY()) {
+                if (x + move < lengthMapX && (x + move != enemy.getX() || y != enemy.getY())) {
                     res[0] = x + move;
                     res[1] = y;
                 }
                 break;
             case 270:
-                if (y - move > 0 && y - move != enemy.getX()) {
+                if (y - move > 0 && (y - move != enemy.getY() || x != enemy.getX())) {
                     res[0] = x;
                     res[1] = y - move;
                 }

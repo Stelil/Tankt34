@@ -66,8 +66,8 @@ public class Main {
             System.out.println("1 health " + firstTank.getHealth());
             System.out.println("2 health " + secondTank.getHealth());
 
-            new Action().action(firstTank, secondTank);
-            new Action().action(secondTank, firstTank);
+            new Action().action(firstTank, secondTank, lengthMapX, lengthMapY);
+            new Action().action(secondTank, firstTank, lengthMapX, lengthMapY);
 
             print();
 
@@ -125,10 +125,10 @@ public class Main {
                     }
                 } else if (sh[x][y] != 0) {
                     System.out.print("|" + sh[x][y]);
-                } else if (y < lengthMapX) {
+                } else if (y < lengthMapY) {
                     System.out.print("|_");
                 } else {
-                    System.out.print("|");
+                    System.out.print("|_|");
 
                 }
             }
